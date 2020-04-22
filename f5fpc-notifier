@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+import os
+import gi
+gi.require_version('Gtk', '3.0')
+gi.require_version('AppIndicator3', '0.1')
+from gi.repository import Gtk, GLib, AppIndicator3
+
+currpath = os.path.dirname(os.path.realpath(__file__))
+
+class Indicator():
+    
+    def __init__(self):
+        self.app = 'show_proc'
+        self.f5indicator = AppIndicator3.Indicator.new(
+            self.app, currpath+"/grey.png",
+            AppIndicator3.IndicatorCategory.OTHER)
+        self.f5indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)       
+        self.f5indicator.set_menu(self.create_menu())
+        
+
+    def create_menu(self):
+        menu = Gtk.Menu()
+        item_connect = Gtk.MenuItem(label='Connect')
+        item_disconnect = Gtk.MenuItem(label='Disconnect')
+        item_status = Gtk.MenuItem(label='Show status')
+        item_quit = Gtk.MenuItem(label='Quit')
+        item_quit.connect('activate', self.stop)
+        menu.append(item_connect)
+        menu.append(item_disconnect)
+        menu.append(item_status)
+        menu.append(item_quit)
+        menu.show_all()
+        return menu
+
+    def stop(self, source):
+        Gtk.main_quit()
+
+Indicator()
+Gtk.main()

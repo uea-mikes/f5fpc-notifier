@@ -1,0 +1,59 @@
+Provide "Connect" and "Disconnect" functions
+Show status while conn/disc
+Should also notice when manual connection has been made
+
+
+
+-- States
+DISCONNECTED
+CONNECTING
+CONNECTED
+RECONNECTING
+DISCONNECTING
+BROKEN
+
+-- Clock - how often?
+"light" check of actual status
+if different from previous clock
+ update status window if showing
+DISCONNECTED
+ check actual connection - switch to other state (?)
+CONNECTING
+ connection complete?
+  Set icon green
+  -> CONNECTED
+CONNECTED
+ 
+-- Icon
+GREY for disconnected
+GREEN for connected
+AMBER for connecting or attempting to reconnect
+RED for broken
+
+-- Status dialog
+Shows updating output from f5fpc --info
+"Dismiss" button to close
+
+-- Menu functions
+Connect
+ Take URL + username from /etc/f5fpc.conf + ~/.config/f5fpc.conf
+ How to securely accept, use, and dispose of password ?
+Disconnect
+Show status
+Quit
+
+
+How expensive is "f5fpc -i"?
+Is there a light way to check connection status?
+ /sys/class/net/tun0/
+ Can this ever be eg tun1 ?
+Polling is expensive - are there events instead?
+ https://unix.stackexchange.com/questions/398204/inotifywait-not-alterting-when-device-created
+ udevadm test /sys/class/net/tun0
+ udevadm monitor
+  UDEV  [98221.461967] add      /devices/virtual/net/tun0 (net)
+  UDEV  [98200.255199] remove   /devices/virtual/net/tun0 (net)
+ https://pyudev.readthedocs.io/
+
+-- Packages required
+gir1.2-appindicator3-0.1
